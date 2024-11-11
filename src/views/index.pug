@@ -1,0 +1,24 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    title= title
+  body
+    h1= title
+    p Welcome to my Media API!
+    p= message
+    h2 Mock data titles
+
+    div
+        a(href="/api/media/json")
+            button(type="button") View JSON
+        ul
+            each item in mediaData
+                li= item.title
+                    p= item.description
+                a(href="/media/" + item.filename)
+                    button(type="button") View image
+                a(href="/api/media/" + item.media_id)
+                    button(type="button") View JSON data
+                hr
