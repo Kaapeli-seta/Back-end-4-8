@@ -1,13 +1,34 @@
 import express from 'express';
-const mediaRouter = express.Router();
+import multer from 'multer';
 import {
-  postItmes,
+  postItem,
   getItemById,
-  getItmes,
-  putItemById,
+  getItems,
+  putItem,
+  DeleteItem,
+  getUsers,
+  getUserById,
+  postUser,
+  putUser,
+  DeleteUser,
 } from '../controllers/media-controller.js';
-mediaRouter.route('/json').get(getItmes).post(postItmes);
 
-mediaRouter.route('/:id').get(getItemById).put(putItemById);
+const upload = multer({dest: 'uploads/'});
+const mediaRouter = express.Router();
 
+mediaRouter
+  .route('/media/json')
+  .get(getItems)
+  .post(upload.single('file'), postItem);
+mediaRouter
+  .route('/media/:id')
+  .get(getItemById)
+  .put(upload.single('file'), putItem)
+  .delete(DeleteItem);
+mediaRouter.route('/users').get(getUsers).post(upload.single('file'), postUser);
+mediaRouter
+  .route('/users/:id')
+  .get(getUserById)
+  .put(upload.single('file'), putUser)
+  .delete(DeleteUser);
 export {mediaRouter};

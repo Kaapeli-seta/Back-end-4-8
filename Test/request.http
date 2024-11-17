@@ -3,39 +3,100 @@
 ## Media resource
 
 ### Get all media
-GET http://localhost:3000/api/media
+GET http://localhost:3000/api/media/json
 
 ### Get a media item based on id
 GET http://localhost:3000/api/media/9632?format=plain
 
 ### 2nd version
-GET http://localhost:3000/api/media/9632
+GET http://localhost:3000/api/media/1
 ### test not found
 GET http://localhost:3000/api/media/963
 
 ### Create an item
-POST http://localhost:3000/api/media
-Content-Type: application/json
+POST http://localhost:3000/api/media/json
+Content-Type: multipart/form-data; boundary=----Boundary
 
-{
-    "filename": "uusi.png",
-    "filesize": 887574,
-    "title": "Uusi kuva",
-    "description": "testi uudellel media itemille",
-    "user_id": 1606,
-    "media_type": "image/png",
-    "created_at": "null"
-}
+------Boundary
+Content-Disposition: form-data; name="title"
+
+New cat image
+------Boundary
+Content-Disposition: form-data; name="user_id"
+
+1
+------Boundary
+Content-Disposition: form-data; name="file"; filename="image.png"
+Content-Type: image/png
+
+< ./Wood-512x512.png
+------Boundary--
 
 ### modify an item
-//blocked by firewall. Works in postman
-PUT /api/media/9590
-content-type: application/json
+PUT http://localhost:3000/api/media/6
+Content-Type: multipart/form-data; boundary=----Boundary
 
-{
-  "title": "OQ-PQ modified",
-  "description": "The data has been modified",
-}
+------Boundary
+Content-Disposition: form-data; name="title"
+
+something
+------Boundary
+Content-Disposition: form-data; name="description"
+
+anything
+------Boundary
+Content-Disposition: form-data; name="user_id"
+
+1
+------Boundary--
 
 ### Delete item
-DELETE /api/media/:id
+DELETE http://localhost:3000/api/media/14
+
+
+
+
+### get users
+GET http://localhost:3000/api/users
+
+### get users by id
+GET http://localhost:3000/api/users/1
+
+### post users
+POST http://localhost:3000/api/users
+Content-Type: multipart/form-data; boundary=Boundary
+
+--Boundary
+Content-Disposition: form-data; name="username"
+
+Johan
+--Boundary
+Content-Disposition: form-data; name="password"
+
+veryGoodPasword
+--Boundary
+Content-Disposition: form-data; name="email"
+
+Jon@someplace.com
+--Boundary--
+
+### update user
+PUT http://localhost:3000/api/users/5
+Content-Type: multipart/form-data; boundary=Boundary
+
+--Boundary
+Content-Disposition: form-data; name="username"
+
+Johan
+--Boundary
+Content-Disposition: form-data; name="password"
+
+veryGoodPass
+--Boundary
+Content-Disposition: form-data; name="email"
+
+Jon@someplace.com
+--Boundary--
+
+### Delete user
+DELETE  http://localhost:3000/api/users/5
