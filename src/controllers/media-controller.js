@@ -32,7 +32,6 @@ const postItem = async (req, res) => {
       .status(400)
       .json({message: 'Title, description and file required'});
   }
-
   const newMediaItem = {
     // user id is hardcoded for now
     user_id: 1,

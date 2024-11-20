@@ -16,10 +16,7 @@ import {
 const upload = multer({dest: 'uploads/'});
 const mediaRouter = express.Router();
 
-mediaRouter
-  .route('/media/json')
-  .get(getItems)
-  .post(upload.single('file'), postItem);
+mediaRouter.route('/media').get(getItems).post(upload.single('file'), postItem);
 mediaRouter
   .route('/media/:id')
   .get(getItemById)
