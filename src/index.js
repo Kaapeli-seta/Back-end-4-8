@@ -3,6 +3,8 @@
 import express from 'express';
 import {fetchMediaItems} from './models/media-model.js';
 import {mediaRouter} from './routes/media-router.js';
+import {userRouter} from './routes/user-routes.js';
+import authRouter from './routes/auth-router.js';
 const hostname = '127.0.0.1';
 const app = express();
 const port = 3000;
@@ -21,6 +23,8 @@ app.get('/api', async (req, res) => {
   });
 });
 
+app.use('/api/auth', authRouter);
+app.use('/api/users', userRouter);
 app.use('/api', mediaRouter);
 
 app.listen(port, hostname, () => {

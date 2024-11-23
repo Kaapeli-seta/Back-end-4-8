@@ -14,13 +14,14 @@ GET http://localhost:3000/api/media/1
 GET http://localhost:3000/api/media/963
 
 ### Create an item
-POST http://localhost:3000/api/media/json
+POST http://localhost:3000/api/media
 Content-Type: multipart/form-data; boundary=----Boundary
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE3MzIzNjk5NzcsImV4cCI6MTczMjQ1NjM3N30.C6zhXtHHQSuCGm2dnpJ-8Cz1uQV10OIa3SuxXYi86ps
 
 ------Boundary
 Content-Disposition: form-data; name="title"
 
-New cat image
+New wood image
 ------Boundary
 Content-Disposition: form-data; name="user_id"
 
@@ -33,17 +34,18 @@ Content-Type: image/png
 ------Boundary--
 
 ### modify an item
-PUT http://localhost:3000/api/media/6
+PUT http://localhost:3000/api/media/16
 Content-Type: multipart/form-data; boundary=----Boundary
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE3MzIzNjk5NzcsImV4cCI6MTczMjQ1NjM3N30.C6zhXtHHQSuCGm2dnpJ-8Cz1uQV10OIa3SuxXYi86ps
 
 ------Boundary
 Content-Disposition: form-data; name="title"
 
-something
+new thing
 ------Boundary
 Content-Disposition: form-data; name="description"
 
-anything
+anyway
 ------Boundary
 Content-Disposition: form-data; name="user_id"
 
@@ -51,7 +53,9 @@ Content-Disposition: form-data; name="user_id"
 ------Boundary--
 
 ### Delete item
-DELETE http://localhost:3000/api/media/14
+DELETE http://localhost:3000/api/media/16
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE3MzIzNjk5NzcsImV4cCI6MTczMjQ1NjM3N30.C6zhXtHHQSuCGm2dnpJ-8Cz1uQV10OIa3SuxXYi86ps
+
 
 
 
@@ -81,8 +85,9 @@ Jon@someplace.com
 --Boundary--
 
 ### update user
-PUT http://localhost:3000/api/users/5
+PUT http://localhost:3000/api/users/7
 Content-Type: multipart/form-data; boundary=Boundary
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJpYXQiOjE3MzIzNzUxNjEsImV4cCI6MTczMjQ2MTU2MX0.9Y92Re52yKgfTthkHYRg4y2KdwOGoeH0tjmfH1Imi84
 
 --Boundary
 Content-Disposition: form-data; name="username"
@@ -99,4 +104,29 @@ Jon@someplace.com
 --Boundary--
 
 ### Delete user
-DELETE  http://localhost:3000/api/users/5
+DELETE  http://localhost:3000/api/users/7
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJpYXQiOjE3MzIzNzUxNjEsImV4cCI6MTczMjQ2MTU2MX0.9Y92Re52yKgfTthkHYRg4y2KdwOGoeH0tjmfH1Imi84
+
+### Login
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "Johan",
+  "password": "veryGoodPasword"
+}
+
+### Get my user info
+GET http://localhost:3000/api/auth/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE3MzIzNjU5NzQsImV4cCI6MTczMjQ1MjM3NH0.yi4cv4DxZh2gG10xV1kAPNbT7bd6sFd2OPmgTXKNcT8
+
+
+
+//JohnDoe 1
+//Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE3MzIzNjU5NzQsImV4cCI6MTczMjQ1MjM3NH0.yi4cv4DxZh2gG10xV1kAPNbT7bd6sFd2OPmgTXKNcT8
+
+//JaneSmith 2
+//Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE3MzIzNjk5NzcsImV4cCI6MTczMjQ1NjM3N30.C6zhXtHHQSuCGm2dnpJ-8Cz1uQV10OIa3SuxXYi86ps
+
+
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJpYXQiOjE3MzIzNzUxNjEsImV4cCI6MTczMjQ2MTU2MX0.9Y92Re52yKgfTthkHYRg4y2KdwOGoeH0tjmfH1Imi84

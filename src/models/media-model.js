@@ -1,5 +1,4 @@
-import promisePool from '../../utils/database.js';
-// Dummy mock data
+import {querryPool} from '../../utils/functions.js';
 
 const fetchMediaItems = async () => {
   const sql = 'SELECT * FROM MediaItems';
@@ -30,74 +29,35 @@ const addMediaItem = async (newItem) => {
   return result[0].insertId;
 };
 
-const updateMediaItem = async (id, updatedItem) => {
-  const sql = `UPDATE MediaItems SET title = ?, description = ? WHERE media_id = ?`;
-  const params = [updatedItem.title, updatedItem.description, id];
-  const result = await querryPool(sql, params);
-  return result[0].affectedRows;
-};
+const updateMediaItem = async (id, user_id, updatedItem) => {
+  const sql1 = 'SELECT user_id FROM MediaItems WHERE media_id = ?';
+  const [item_owner] = await querryPool(sql1, [id]);
 
-const removeItem = async (id) => {
-  const sql = `DELETE FROM mediaitems WHERE media_id = ${id}`;
-  const result = await querryPool(sql);
-  return result;
-};
-
-const fetchUsers = async () => {
-  const sql = 'SELECT * FROM Users';
-  const [rows] = await querryPool(sql);
-  return rows;
-};
-
-const fetchUserItemById = async (id) => {
-  const sql = 'SELECT * FROM Users WHERE user_id = ?';
-  const [rows] = await querryPool(sql, [id]);
-  return rows;
-};
-
-const addUser = async (newUser) => {
-  console.log(newUser);
-  const sql = `INSERT INTO users
-                (username, password, email, user_level_id)
-                VALUES (?, ?, ?, ?)`;
-  const params = [
-    newUser.username,
-    newUser.password,
-    newUser.email,
-    newUser.user_level_id,
-  ];
-  const result = await querryPool(sql, params);
-  return result[0].insertId;
-};
-
-const updateUser = async (id, updatedUser) => {
-  const sql = `UPDATE users SET username = ?, password = ?, email = ? 
-  WHERE user_id = ?`;
-  const params = [
-    updatedUser.username,
-    updatedUser.password,
-    updatedUser.email,
-    id,
-  ];
-  const result = await querryPool(sql, params);
-  return result[0].affectedRows;
-};
-
-const removeUser = async (id) => {
-  const sql = `DELETE FROM users WHERE user_id = ${id}`;
-  const result = await querryPool(sql);
-  return result;
-};
-
-async function querryPool(sql, params = []) {
-  try {
-    const result = await promisePool.query(sql, params);
-    return result;
-  } catch (error) {
-    console.error('Debug', error.message);
-    throw new Error('Database error ' + error.message);
+  console.log('user_id:' + user_id, 'owner_id:' + item_owner[0].user_id);
+  if (user_id != item_owner[0].user_id) {
+    console.log('user not item owner');
+    return 2;
   }
-}
+
+  const sql2 = `UPDATE MediaItems SET title = ?, description = ? WHERE media_id = ?`;
+  const params = [updatedItem.title, updatedItem.description, id];
+  const result = await querryPool(sql2, params);
+  return result[0].affectedRows;
+};
+
+const removeItem = async (id, user_id) => {
+  const sql1 = 'SELECT user_id, filename FROM MediaItems WHERE media_id = ?';
+  const [item_data] = await querryPool(sql1, [id]);
+
+  console.log('user_id:' + user_id, 'owner_id:' + item_data[0].user_id);
+  if (user_id != item_data[0].user_id) {
+    console.log('user not item owner');
+    return 2;
+  }
+  const sql = `DELETE FROM mediaitems WHERE media_id = ${id}`;
+  await querryPool(sql);
+  return item_data[0];
+};
 
 export {
   fetchMediaItems,
@@ -105,9 +65,4 @@ export {
   addMediaItem,
   updateMediaItem,
   removeItem,
-  fetchUsers,
-  fetchUserItemById,
-  addUser,
-  updateUser,
-  removeUser,
 };
