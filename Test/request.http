@@ -23,10 +23,6 @@ Content-Disposition: form-data; name="title"
 
 New wood image
 ------Boundary
-Content-Disposition: form-data; name="user_id"
-
-1
-------Boundary
 Content-Disposition: form-data; name="file"; filename="image.png"
 Content-Type: image/png
 
@@ -46,10 +42,6 @@ new thing
 Content-Disposition: form-data; name="description"
 
 anyway
-------Boundary
-Content-Disposition: form-data; name="user_id"
-
-1
 ------Boundary--
 
 ### Delete item
@@ -68,39 +60,26 @@ GET http://localhost:3000/api/users/1
 
 ### post users
 POST http://localhost:3000/api/users
-Content-Type: multipart/form-data; boundary=Boundary
+Content-Type: application/json
 
---Boundary
-Content-Disposition: form-data; name="username"
+{
+  "username": "Joe",
+  "password": "veryVeryGoodPassword",
+  "email": "Joe@someplace.com"
+}
 
-Johan
---Boundary
-Content-Disposition: form-data; name="password"
-
-veryGoodPasword
---Boundary
-Content-Disposition: form-data; name="email"
-
-Jon@someplace.com
---Boundary--
 
 ### update user
 PUT http://localhost:3000/api/users/7
-Content-Type: multipart/form-data; boundary=Boundary
+Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJpYXQiOjE3MzIzNzUxNjEsImV4cCI6MTczMjQ2MTU2MX0.9Y92Re52yKgfTthkHYRg4y2KdwOGoeH0tjmfH1Imi84
 
---Boundary
-Content-Disposition: form-data; name="username"
+{
+  "username": "Joe",
+  "password": "veryVeryGoodPassword",
+  "email": "Joe@someplace.com"
+}
 
-Johan
---Boundary
-Content-Disposition: form-data; name="password"
-
-veryGoodPass
---Boundary
-Content-Disposition: form-data; name="email"
-
-Jon@someplace.com
 --Boundary--
 
 ### Delete user

@@ -1,5 +1,4 @@
 import express from 'express';
-import multer from 'multer';
 import {
   getUsers,
   getUserById,
@@ -10,14 +9,13 @@ import {
 
 import {authenticateToken} from '../middlewares/authentication.js';
 
-const upload = multer({dest: 'uploads/'});
 const userRouter = express.Router();
 
-userRouter.route('/').get(getUsers).post(upload.single('file'), postUser);
+userRouter.route('/').get(getUsers).post(postUser);
 userRouter
   .route('/:id')
   .get(getUserById)
-  .put(authenticateToken, upload.single('file'), putUser)
+  .put(authenticateToken, putUser)
   .delete(authenticateToken, DeleteUser);
 
 export {userRouter};
