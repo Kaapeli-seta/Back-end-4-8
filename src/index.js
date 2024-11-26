@@ -5,6 +5,7 @@ import {fetchMediaItems} from './models/media-model.js';
 import {mediaRouter} from './routes/media-router.js';
 import {userRouter} from './routes/user-routes.js';
 import authRouter from './routes/auth-router.js';
+import {notFoundHandler, errorHandler} from './middlewares/error-handler.js';
 const hostname = '127.0.0.1';
 const app = express();
 const port = 3000;
@@ -25,7 +26,11 @@ app.get('/api', async (req, res) => {
 
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
-app.use('/api', mediaRouter);
+app.use('/api/media', mediaRouter);
+// Default for all routes not handled by routers above
+app.use(notFoundHandler);
+// Add error handler middleware as the last middleware in the chain
+app.use(errorHandler);
 
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);

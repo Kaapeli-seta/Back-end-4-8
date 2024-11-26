@@ -24,12 +24,7 @@ const addUser = async (newUser) => {
   const sql = `INSERT INTO users
                   (username, password, email, user_level_id)
                   VALUES (?, ?, ?, ?)`;
-  const params = [
-    newUser.username,
-    newUser.password,
-    newUser.email,
-    newUser.user_level_id,
-  ];
+  const params = [newUser.username, newUser.password, newUser.email, 2];
   const result = await querryPool(sql, params);
   return result[0].insertId;
 };

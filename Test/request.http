@@ -22,11 +22,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJpY
 Content-Disposition: form-data; name="title"
 
 New wood image
-------Boundary
-Content-Disposition: form-data; name="file"; filename="image.png"
-Content-Type: image/png
-
-< ./Wood-512x512.png
 ------Boundary--
 
 ### modify an item
@@ -58,16 +53,16 @@ GET http://localhost:3000/api/users
 ### get users by id
 GET http://localhost:3000/api/users/1
 
-### post users
-POST http://localhost:3000/api/users
+
+### Register
+POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 {
-  "username": "Joe",
-  "password": "veryVeryGoodPassword",
-  "email": "Joe@someplace.com"
+  "username": "newuser2",
+  "password": "new-password",
+  "email": "newuser2@example.com"
 }
-
 
 ### update user
 PUT http://localhost:3000/api/users/7
@@ -82,17 +77,23 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJpY
 
 --Boundary--
 
+
+
 ### Delete user
-DELETE  http://localhost:3000/api/users/7
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJpYXQiOjE3MzIzNzUxNjEsImV4cCI6MTczMjQ2MTU2MX0.9Y92Re52yKgfTthkHYRg4y2KdwOGoeH0tjmfH1Imi84
+DELETE  http://localhost:3000/api/users/13
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMywiaWF0IjoxNzMyNTIwODE0LCJleHAiOjE3MzI2MDcyMTR9.N5YVPsqzdK7g7g40y5-Mhhx9RBDhmaVRNFDA7LFwU1Q
+
+
+
+
 
 ### Login
 POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-  "username": "Johan",
-  "password": "veryGoodPasword"
+  "username": "newuser2",
+  "password": "new-password"
 }
 
 ### Get my user info
@@ -106,6 +107,3 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpY
 
 //JaneSmith 2
 //Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE3MzIzNjk5NzcsImV4cCI6MTczMjQ1NjM3N30.C6zhXtHHQSuCGm2dnpJ-8Cz1uQV10OIa3SuxXYi86ps
-
-
-//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJpYXQiOjE3MzIzNzUxNjEsImV4cCI6MTczMjQ2MTU2MX0.9Y92Re52yKgfTthkHYRg4y2KdwOGoeH0tjmfH1Imi84

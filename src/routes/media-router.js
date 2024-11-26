@@ -1,5 +1,7 @@
 import express from 'express';
-import multer from 'multer';
+import {upload} from '../middlewares/upload.js';
+import {body} from 'express-validator';
+import 'dotenv/config';
 import {
   postItem,
   getItemById,
@@ -10,15 +12,20 @@ import {
 
 import {authenticateToken} from '../middlewares/authentication.js';
 
-const upload = multer({dest: 'uploads/'});
 const mediaRouter = express.Router();
 
 mediaRouter
-  .route('/media')
+  .route('/')
   .get(getItems)
-  .post(authenticateToken, upload.single('file'), postItem);
+  .post(
+    authenticateToken,
+    upload.single('file'),
+    body('title').trim().isLength({min: 3, max: 50}),
+    body('description').trim().isLength({max: 255}),
+    postItem,
+  );
 mediaRouter
-  .route('/media/:id')
+  .route('/:id')
   .get(getItemById)
   .put(authenticateToken, upload.single('file'), putItem)
   .delete(authenticateToken, DeleteItem);

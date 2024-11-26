@@ -1,3 +1,4 @@
+import {validationResult} from 'express-validator';
 import {
   fetchMediaItems,
   addMediaItem,
@@ -16,19 +17,26 @@ const getItems = async (req, res) => {
   }
 };
 
-const postItem = async (req, res) => {
+const postItem = async (req, res, next) => {
+  if (!req.file) {
+    const error = new Error('Invalid or missing file');
+    error.status = 400;
+    next(error);
+  }
+  const errors = validationResult(req);
+  console.log('post req file', req.file);
+  console.log('post req body', req.body);
+  if (!errors.isEmpty()) {
+    console.log('postMedia errors', errors.array());
+    const error = new Error('Invalid or missing fields');
+    error.status = 400;
+    return next(error);
+  }
+
   // destructure title and description property values from req.body
   const {title, description} = req.body;
-  // quick and dirty validation example, better input validatation is added later
-  console.log('post req body', req.body);
-  console.log('post req file', req.file);
-  if (!title || !req.file) {
-    return res
-      .status(400)
-      .json({message: 'Title, description and file required'});
-  }
+
   const newMediaItem = {
-    // user id is hardcoded for now
     user_id: req.user.user_id,
     title,
     description,

@@ -1,3 +1,4 @@
+import {validationResult} from 'express-validator';
 import {
   fetchUsers,
   fetchUserById,
@@ -30,32 +31,21 @@ const getUserById = async (req, res) => {
   }
 };
 
-const postUser = async (req, res) => {
-  // destructure title and description property values from req.body
-  const {username, password, email} = req.body;
-  // quick and dirty validation example, better input validatation is added later
-  console.log('post req body', req.body);
-  if (!username || !password || !email) {
-    return res
-      .status(400)
-      .json({message: 'Title, description and file required'});
+const postUser = async (req, res, next) => {
+  // validation errors can be retrieved from the request object (added by express-validator middleware)
+  const errors = validationResult(req);
+  // check if any validation errors
+  if (!errors.isEmpty()) {
+    const error = new Error('Invalid or missing fields');
+    error.status = 400;
+    return next(error);
   }
-
-  const newUser = {
-    // user id is hardcoded for now
-    username,
-    password,
-    email,
-    user_level_id: 2,
-    created_at: new Date().toISOString(),
-  };
   try {
-    const id = await addUser(newUser);
-    res.status(201).json({message: 'User added', id: id});
-  } catch (error) {
-    return res
-      .status(400)
-      .json({message: 'Something went wrong: ' + error.message});
+    const newUserId = await addUser(req.body);
+    res.json({message: 'new user added', user_id: newUserId});
+  } catch (e) {
+    console.error('postUser', e.message);
+    res.status(503).json({error: 503, message: e.message});
   }
 };
 
